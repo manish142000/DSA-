@@ -1,3 +1,5 @@
+                                  /*  https://codeforces.com/problemset/problem/1042/B */ 
+
 #include<bits/stdc++.h>
 #include<string.h>
 #define ll long long int
