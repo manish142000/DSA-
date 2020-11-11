@@ -1,3 +1,9 @@
+
+                /**** This is the code to find the " Least Common Ancestor " in a rooted tree *********/
+                /**time complexicity - Olog(N) **/
+                /** space complexicity - Nlog(N) **/
+                /** application - find the length between two nodes in a rooted tree , finding kth ancestor **/
+//** this code calculate the kth ancestor of any node . for sample we took n = 1e6 + 1 .
 #include<bits/stdc++.h>
 using namespace std ;
 #define ll long long int
@@ -7,51 +13,120 @@ using namespace std ;
 #define ff first
 #define ss second
 #define pp pair<int,int>
-const int p = 1e6 + 1 ;
+
+const int p = 6e5 + 1 ;
+
+vi <int> edges[ p ] ; // adjacency list .
+
+int node_level[ p ] ; 
+
+
+int node_parent[ p ][ 20 ] ; // keeps a track os the node at the 2^(i) the parent . 
+
 void solve() ;
-ll mergesort( ll a[] , ll temp[] , ll , ll ) ;
-ll merge( ll a[] , ll temp[] , ll , ll , ll ) ;
-ll merge( ll a[] , ll temp[] , ll l , ll mid , ll r)
+
+int kth_parent( int x , int k  ) ;
+
+void dfs(int, int) ;
+
+void intialise_binary_matrix() ;
+
+int kth_parent( int x , int k  )
 {
-    ll i = l , j = mid + 1 , k = l ;
-    ll y = 0 ;
-    while( ( i <= mid ) && ( j <= r ))
+    int i = 0 ; bool flag = false ;
+     // intialising with 1 jump  
+    
+    while( i < 21 ) // suppose our k is 11001 so we first make 1 jump then 8 jump then 16 jump in order to reach kth ancestor
     {
-        if( a[i] <= a[j] )
+        if( (k >> i) & (1) )
         {
-            temp[k++] = a[i++] ;
+
+            x = node_parent[x][i] ;
         }
-        else{
-            temp[k++] = a[j++] ;
-            y += ( mid - i  + 1 ) ;
-        }
+        i ++ ;
     }
-    while( i <= mid ){ temp[k++] = a[i++] ; }
+   
 
-    while( j <= r){ temp[k++] = a[j++] ; }
-
-    for( int i = l ; i <= r ; i ++ )
-        { a[i] = temp[i] ; }
-    return y ;
+        return x ;
+    
 }
-ll mergesort( ll a[] , ll temp[] , ll l , ll r )
+
+void intialise_binary_matrix() 
 {
-    ll count_inv = 0 , mid ;
-    if( l < r )
+
+    for( int i = 0 ; i < p ; i ++ )
     {
-        mid = ( l + r )/2 ;
-        count_inv += mergesort( a , temp , l , mid ) ;
-        count_inv += mergesort( a , temp , mid + 1 , r ) ;
-        count_inv += merge( a , temp , l , mid  , r ) ;
+        for( int j = 0 ; j < 21 ; j ++ )
+        {
+            node_parent[i][j] = -1 ;
+        }
     }
-    return count_inv ;
-} 
+}
+
+
+void dfs( int x , int p)
+{
+    node_parent[x][0] = p ;
+    node_level[x] = node_level[p] + 1 ;
+    for( auto k : edges[x] )
+    {
+        if( k != p )
+        {
+            
+             
+            dfs( k , x ) ;
+        }
+    }
+}
+
 void solve()
 {
-    ll n ; cin >> n ; 
-    ll a[n] ; for( ll i = 0 ; i < n ; i ++ ){ cin >> a[i] ; }
-    ll temp[n] ;
-    cout << mergesort(a,temp,0,n-1) ;
+    int n , q ; cin >> n >> q ;
+    
+    int c = n ;
+
+    c-- ;
+
+    intialise_binary_matrix() ;
+
+    while( c -- )
+    {
+        int x , y ; cin >> x >> y ; edges[x].pb(y) ; edges[y].pb(x) ;
+    }
+
+    node_level[1] = 0 ; // starting node level is marked as zer0
+
+    dfs(1,-1) ;
+
+    for( int j = 1 ; j < 21 ; j ++ )// since log2(1e6 + 5 ) is 20 , max ancestor length we can get is 20 
+    {
+        for( int i = 1 ; i <= n ; i ++ ) 
+        {
+            int temp =  node_parent[i][j-1] ; // in order to jump to 2^k th ancestor we  look at the 2*( 2^(k-1) ) or the 2nd parent from 2^(k-1) ancestor of i.
+            
+
+            // if there exists 2^(k-1) parent of i then proceed .
+
+            if( temp != -1 ) 
+            {
+                node_parent[i][j] = node_parent[ temp ][ j-1 ] ; // this step is basically dynamic programming .
+            }
+        }
+    }
+
+    
+    // these queries find the kth ancestor of the x .
+    while( q-- )
+    {
+        int x , k ; cin >> x >> k ;
+
+        if( node_level[x] < k  ) { cout <<"4 -1\n" ; continue ; }
+
+
+
+        cout << kth_parent( x , k ) <<"\n" ;
+    }
+    
 }
  
 int main()

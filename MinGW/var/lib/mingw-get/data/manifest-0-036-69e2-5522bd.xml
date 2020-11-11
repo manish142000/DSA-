@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<package id="manifest-0-036-69e2-5522bd">
+    <release tarname="libobjc-9.2.0-2-mingw32-dll-4.tar.xz" />
+    <references>
+        <sysroot id="sysroot-0-002-a7c6-d7dbb5" />
+    </references>
+    <manifest>
+        <file path="bin/libobjc-4.dll" />
+    </manifest>
+</package>

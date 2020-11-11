@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<package id="manifest-0-030-e883-6c1941">
+    <release tarname="gcc-9.2.0-2-mingw32-lic.tar.xz" />
+    <references>
+        <sysroot id="sysroot-0-002-a7c6-d7dbb5" />
+    </references>
+    <manifest>
+        <file path="share/doc/gcc/9.2.0/COPYING3.LIB" />
+        <file path="share/doc/gcc/9.2.0/COPYING.RUNTIME" />
+        <file path="share/doc/gcc/9.2.0/COPYING.LIB" />
+        <file path="share/doc/gcc/9.2.0/COPYING" />
+        <file path="share/doc/gcc/9.2.0/COPYING3" />
+        <file path="share/doc/gcc/9.2.0/libphobos/src/LICENSE_1_0.txt" />
+        <file path="share/doc/gcc/9.2.0/libphobos/libdruntime/LICENSE" />
+        <file path="share/doc/gcc/9.2.0/zlib/LICENSE_1_0.txt" />
+    </manifest>
+</package>
